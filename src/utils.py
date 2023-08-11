@@ -14,3 +14,16 @@ def get_hh_data_vacancy():
         list.append(data)
     return list
 
+
+def get_necessary_vacancy_info():
+    list = []
+    for item in get_hh_data_vacancy():
+        for vacancy in item:
+            dict = {"vacancy_name": vacancy['name'], "salary": vacancy['salary'],
+                    "employee": vacancy['employer']['name'], "vacancy_url": vacancy['alternate_url'],
+                    "employment": vacancy['employment']['name'], "experience": vacancy['experience']['name'],
+                    "requirements": vacancy['snippet']['requirement']}
+            list.append(dict)
+    return list
+
+
