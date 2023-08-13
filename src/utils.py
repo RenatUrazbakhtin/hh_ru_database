@@ -55,4 +55,9 @@ def get_employers_info():
         list.append(data)
     return list
 
-
+def get_necessary_employers_data():
+    list =[]
+    for employer in get_employers_info():
+        dict = {"title": employer["name"], "site_url": employer["site_url"]}
+        list.append(dict)
+    return list
