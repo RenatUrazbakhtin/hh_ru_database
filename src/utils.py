@@ -99,3 +99,18 @@ def create_database(database_name, params):
                 """)
     conn.commit()
     conn.close()
+
+def save_data_employer_to_table(data, database_name, params):
+    conn = psycopg2.connect(dbname=database_name, **params)
+
+    with conn.cursor() as cur:
+        for employer in data:
+            cur.execute(
+                """
+                insert into employers (title, site_url)
+                values (%s, %s)
+                """,
+                (employer['title'], employer['site_url'])
+                )
+    conn.commit()
+    conn.close()
