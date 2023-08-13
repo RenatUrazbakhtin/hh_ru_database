@@ -28,3 +28,11 @@ class DBmanager():
             self.cur.execute("select AVG((salary_from + salary_to)/2) as average_salary from vacancies")
             data = self.cur.fetchall()
         return int(data[0][0])
+
+    def get_vacancies_with_higher_salary(self):
+        with self.conn:
+            self.cur.execute("select * from vacancies where (salary_from + salary_to)/2 > (select AVG((salary_from + salary_to)/2) from vacancies)")
+            data = self.cur.fetchall()
+            for item in data:
+                dict = [{"vacancy_id": item[0], "vacancy_name": item[1], "salary_from": item[2], "salary_to": item[3], "currency": item[4], "employer": item[5], "employer_id": item[6], "vacancy_url": item[7]}]
+        return dict
