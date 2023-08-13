@@ -23,4 +23,8 @@ class DBmanager():
                          "salary_to": item[4], "vacancy_url": item[5]}]
         return dict
 
-
+    def get_avg_salary(self):
+        with self.conn:
+            self.cur.execute("select AVG((salary_from + salary_to)/2) as average_salary from vacancies")
+            data = self.cur.fetchall()
+        return int(data[0][0])
