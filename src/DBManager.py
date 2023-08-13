@@ -36,3 +36,11 @@ class DBmanager():
             for item in data:
                 dict = [{"vacancy_id": item[0], "vacancy_name": item[1], "salary_from": item[2], "salary_to": item[3], "currency": item[4], "employer": item[5], "employer_id": item[6], "vacancy_url": item[7]}]
         return dict
+
+    def get_vacancies_with_keyword(self,search):
+        with self.conn:
+            self.cur.execute(f"select * from vacancies where vacancy_name like '%{search}%'")
+            data = self.cur.fetchall()
+            for item in data:
+                dict = [{"vacancy_id": item[0], "vacancy_name": item[1], "salary_from": item[2], "salary_to": item[3], "currency": item[4], "employer": item[5], "employer_id": item[6], "vacancy_url": item[7]}]
+        return dict
