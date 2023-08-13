@@ -61,3 +61,41 @@ def get_necessary_employers_data():
         dict = {"title": employer["name"], "site_url": employer["site_url"]}
         list.append(dict)
     return list
+
+def create_database(database_name, params):
+    conn = psycopg2.connect(dbname='postgres', **params)
+    conn.autocommit = True
+    cur = conn.cursor()
+    cur.execute(f"drop database if exists {database_name}")
+    cur.execute(f"create database {database_name}")
+
+    conn.close()
+
+    conn = psycopg2.connect(dbname=database_name, **params)
+
+    with conn.cursor() as cur:
+        cur.execute("""
+            CREATE TABLE employers (
+	            employer_id SERIAL PRIMARY KEY,
+	            title VARCHAR(255) NOT NULL,
+                site_url VARCHAR(255)
+            )
+        """)
+
+    with conn.cursor() as cur:
+        cur.execute("""
+            create table vacancies (
+                    vacancy_id serial primary key,
+                    vacancy_name varchar(255),
+                    salary_from integer,
+                    salary_to integer,
+                    currency varchar(10),
+                    employer varchar(255),
+                    employer_id int,
+                    vacancy_url varchar(255)
+                    )
+                    alter table vacancies
+                    add constraint fk_vacancies_employers foreign_key(employer_id) references employers(employer_id)
+                """)
+    conn.commit()
+    conn.close()
