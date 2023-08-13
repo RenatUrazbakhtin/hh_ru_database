@@ -114,3 +114,19 @@ def save_data_employer_to_table(data, database_name, params):
                 )
     conn.commit()
     conn.close()
+
+def save_data_vacancy_to_database(data, database_name, params):
+    conn = psycopg2.connect(dbname=database_name, **params)
+
+    with conn.cursor() as cur:
+        for vacancy in data:
+            cur.execute(
+                """
+                insert into vacancies (vacancy_name, salary_from, salary_to, currency, employer, vacancy_url)
+                values (%s, %s, %s, %s, %s, %s)
+                """,
+                (vacancy['vacancy_name'], vacancy['salary_from'], vacancy['salary_to'], vacancy['currency'], vacancy['employer'], vacancy['vacancy_url'])
+            )
+
+    conn.commit()
+    conn.close()
