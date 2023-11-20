@@ -1,4 +1,4 @@
-# hh_ru_database
+# hh_superjob_parser
 
 Проект для работы с данными о вакансиях и работодателях, полученными по API HH.RU и создания таблиц  в postgresql
 
